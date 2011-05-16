@@ -40,15 +40,26 @@
         }
        
         private function writeVerticalWord($sWord) {
+	    $arrWord = str_split($sWord);
             echo "Vertical word: $sWord  </br>";
+            $arrPos = $this->getRandPosV($sWord);
+            $col = $arrPos['col']; $row = $arrPos['row'];
+            
+            foreach ($arrWord as $sLetter) {
+                $this->arrBoard[$col][$row] = $sLetter;
+                $row++;
+
+            }
+
         }
        
-        private function writeHorizontalWord($sWord, $r) {
+        private function writeHorizontalWord($sWord) {
             $arrWord = str_split($sWord);
             echo "Horizontal word: $sWord  </br>";
+ 	    $arrPos = $this->getRandPosH($sWord);		
+	    $col = $arrPos['col']; $row = $arrPos['row'];
 
-	    $row = rand(0, $this->iRows-1);
-            $col = rand(0, $this->iCols-1);
+
             foreach ($arrWord as $sLetter) {
 		$this->arrBoard[$col][$row] = $sLetter;
 	        $col++;
@@ -57,15 +68,30 @@
 
         }
 
+	private function getRandPosH($sWord) {
+	    $iWordLength = strlen($sWord);
+	    $row = rand(0, $this->iRows-1);
+            $col = rand(0, ($this->iCols-$iWordLength)-1);
+	    return array('col' => $col,'row' => $row);
+	}
+
+        private function getRandPosV($sWord) {
+            $iWordLength = strlen($sWord);
+            $row = rand(0, ($this->iRows-$iWordLength)-1);
+            $col = rand(0, $this->iCols-1);
+            return array('col' => $col,'row' => $row);
+        }
+
+
 
         public function writeWords() {
-            $i = 0;
+
             foreach($this->arrWords as $sWord => $sArrange) {
                 $i++;
                 if ($sArrange == 'v') {
                     $this->writeVerticalWord($sWord);
                 } else if ($sArrange == 'h') {
-                    $this->writeHorizontalWord($sWord, $i);
+                    $this->writeHorizontalWord($sWord);
                 }
             }
         }
