@@ -2,26 +2,29 @@
     class Board {
         private $arrBoard;
         private $arrWords;
+	private $iCols;
+	private $iRows;
        
         public function Board($nRows, $nCols) {
-            $x=1;
-            for ($col = 0; $col < $nCols; $col++) {
-                for ($row = 0; $row < $nRows; $row++) {
-                    $this->arrBoard[$row][$col] = $x++;
+            $this->iCols = $nCols;
+	    $this->iRows = $nRows;
+
+            for ($col = 0; $col < $this->iCols; $col++) {
+                for ($row = 0; $row < $this->iRows; $row++) {
+                    $this->arrBoard[$row][$col] = '*';
                 }
-                $x=1;
+
             }
         }
        
         public function visualize() {
-            $nCols = count($this->arrBoard[0]);
-            $nRows = count($this->arrBoard);
+  	    //print_r($this->arrBoard);
            
             echo "<table border='1'>";
-            for ($col = 0; $col < $nCols; $col++) {
-                echo "<tr>";
-                for ($row = 0; $row < $nRows; $row++) {
-                    echo '<td>' . $this->arrBoard[$row][$col]  . '</td>';
+            for ($col = 0; $col < $this->iCols; $col++) {
+                echo "<tr c='$col'>";
+                for ($row = 0; $row < $this->iRows; $row++) {
+                    echo "<td r='$row'>" . $this->arrBoard[$row][$col]  . '</td>';
                 }
                 echo "</tr>";
             }
@@ -41,10 +44,20 @@
         }
        
         private function writeHorizontalWord($sWord, $r) {
+            $arrWord = str_split($sWord);
             echo "Horizontal word: $sWord  </br>";
-            $this->arrBoard[$r] = $sWord;
+
+	    $row = rand(0, $this->iRows-1);
+            $col = rand(0, $this->iCols-1);
+            foreach ($arrWord as $sLetter) {
+		$this->arrBoard[$col][$row] = $sLetter;
+	        $col++;
+
+	    }
+
         }
-       
+
+
         public function writeWords() {
             $i = 0;
             foreach($this->arrWords as $sWord => $sArrange) {
