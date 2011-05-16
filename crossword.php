@@ -1,4 +1,4 @@
-<?php
+<?php 
     class Board {
         private $arrBoard;
         private $arrWords;
